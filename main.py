@@ -66,7 +66,7 @@ def drawBoard(ans, words=[""]*6):
 
 def printError(msg):
     print("!!! ERROR:" + msg.upper() + " !!!")
-    sleep(1)
+    sleep(1.5)
 
 
 def gameEnd(ans, word, t):
@@ -79,11 +79,32 @@ def gameEnd(ans, word, t):
 
     print(msg)
     if debug: printDebug(f"Correct answer was {answer.upper()}")
-    sleep(1)
+    input("\nPress Enter to play again . . . ")
 
 
 def printDebug(msg):
     print("### DEBUG: " + msg + " ###")
+
+
+def printHelp(cheats):
+    msg = (
+        "### HELP MENU ###\n"
+        "[Commands]\n"
+        "quit    - Quits the whole game\n"
+        "restart - Restarts the game (and chooses a new word)\n"
+        "cheats  - Activates debug mode"
+    )
+    
+    if cheats:
+        msg += (
+            "\n\n"
+            "[Debug Commands]\n"
+            "ans     - Returns the answer to the current puzzle\n"
+            "used    - Returns a list of the past 20 used words (most recent last)"
+        )
+
+    print(msg)
+    input("\nPress Enter to continue . . . ")
 
 
 ### Game ###
@@ -96,7 +117,7 @@ while running:
     playing = True
     wordList = [""]*6
     turn = 0
-    debug = True
+    debug = False
 
     while playing:
         print(drawBoard(answer, wordList))
@@ -105,7 +126,7 @@ while running:
         ### Commands ###
         # Checking help menu PLACEHOLDER
         if inp.lower() == "help":
-            print("Help")
+            printHelp(debug)
         # Quitting game
         elif inp.lower() == "quit":
             playing = False
@@ -116,6 +137,9 @@ while running:
             playing = False
             break
         ### Debug
+        elif inp.lower() == "cheats":
+            debug = not debug
+            printDebug(f"Debug is now {['OFF', 'ON'][debug]}")
         elif debug and (inp.lower() == "ans"):
             printDebug(f"Answer is: {answer.upper()}")
         elif debug and (inp.lower() == "used"):
