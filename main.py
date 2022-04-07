@@ -52,7 +52,6 @@ def checkRight(word, ans, ind):
                 if ltrs[word[ind].upper()] != 3: ltrs[word[ind].upper()] = 2
                 return "()"
             else:
-                print(ans, word, ind, freeLtrs, ltrNums[word[ind]])
                 break
         elif word[i] != ans[i]:
             ltrNums[word[i]] += 1
