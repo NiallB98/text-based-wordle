@@ -1,5 +1,10 @@
 from random import randint
 from time import sleep
+from string import ascii_uppercase, ascii_lowercase
+
+
+# Globals
+ltrs = dict.fromkeys(ascii_uppercase, 0)
 
 
 # Choosing random word from file
@@ -26,17 +31,34 @@ def checkRight(word, ans, ind):
 
     # Check letter is right
     if word[ind] == ans[ind]:
+        ltrs[word[ind].upper()] = 3
         return "**"
+
+    # Dictionary tracking cumulative wrong position letter counts
+    ltrNums = dict.fromkeys(ascii_lowercase, 0)
 
     # Otherwise, check if it is in the word anywhere (That isn't already correct)
     for i in range(len(ans)):
         if i == ind:
-            continue
-        elif (word[i] != ans[i]) and (word[ind] == ans[i]):
-            ######################### NEED TO CHECK FOR CASE WHEN MULTIPLE GUESSES ARE BOTH NOT IN THE RIGHT PLACE
-            return "()"
+            ltrNums[word[i]] += 1
+
+            # Checking for case when multiple similar guesses are not in the right place
+            freeLtrs = 0
+            for j in range(len(ans)):
+                if (ans[j] == word[ind]) and (word[j] != ans[j]):
+                    freeLtrs += 1
+
+            if freeLtrs >= ltrNums[word[ind]]:
+                if ltrs[word[ind].upper()] != 3: ltrs[word[ind].upper()] = 2
+                return "()"
+            else:
+                print(ans, word, ind, freeLtrs, ltrNums[word[ind]])
+                break
+        elif word[i] != ans[i]:
+            ltrNums[word[i]] += 1
 
     # If neither case is true (Letter is wrong)
+    if ltrs[word[ind].upper()] < 2: ltrs[word[ind].upper()] = 1
     return "--"
 
 
@@ -82,8 +104,21 @@ def gameEnd(ans, word, t):
     input("\nPress Enter to play again . . . ")
 
 
-def printDebug(msg):
+def printLtrs():
+    msg = ""
+    for ltr in ascii_uppercase:
+        msg += ["  ", "X ", "~ ", "* "][ltrs[ltr]]
+
+    msg += "\n" + " ".join(ascii_uppercase)
+    print(msg)
+
+
+def printDebug(msg, pause=-1):
     print("### DEBUG: " + msg + " ###")
+    if pause == 0:
+        input("\nPress Enter to continue . . . ")
+    elif pause > 0:
+        sleep(pause)
 
 
 def printHelp(cheats):
@@ -109,6 +144,7 @@ def printHelp(cheats):
 
 ### Game ###
 running = True
+debug = False
 
 # Picking first word
 answer, used = pickWord()
@@ -117,10 +153,11 @@ while running:
     playing = True
     wordList = [""]*6
     turn = 0
-    debug = False
+    ltrs = dict.fromkeys(ascii_uppercase, 0)
 
     while playing:
         print(drawBoard(answer, wordList))
+        printLtrs()
         inp = input("> ")
 
         ### Commands ###
@@ -141,7 +178,7 @@ while running:
             debug = not debug
             printDebug(f"Debug is now {['OFF', 'ON'][debug]}")
         elif debug and (inp.lower() == "ans"):
-            printDebug(f"Answer is: {answer.upper()}")
+            printDebug(f"Answer is: {answer.upper()}", 0)
         elif debug and (inp.lower() == "used"):
             printDebug(f"Words used are: {used}")
         ### Wrong input checks ###
