@@ -3,20 +3,21 @@ from time import sleep
 from string import ascii_uppercase, ascii_lowercase
 
 
-# Globals
+# Globals ◼
 ltrs = dict.fromkeys(ascii_uppercase, 0)
+allWords = open('src/words.txt').read().splitlines()
 
 
 # Choosing random word from file
 # noinspection PyDefaultArgument
 def pickWord(usedList=[""]*20):
     # Reading words.txt and making empty choice variable
-    lines = open('words.txt').read().splitlines()
+    global allWords
     chosen = ""
 
     # Selecting random word
     while chosen in usedList:
-        chosen = lines[randint(0, len(lines))]
+        chosen = allWords[randint(0, len(allWords))]
 
     # Adding word to used
     usedList = usedList[1:]
@@ -124,17 +125,17 @@ def printHelp(cheats):
     msg = (
         "### HELP MENU ###\n"
         "[Commands]\n"
-        "quit    - Quits the whole game\n"
-        "restart - Restarts the game (and chooses a new word)\n"
-        "cheats  - Activates debug mode"
+        "\\q       - Quits the whole game\n"
+        "\\r       - Restarts the game (and chooses a new word)\n"
+        "\\cheats  - Activates debug mode"
     )
     
     if cheats:
         msg += (
             "\n\n"
             "[Debug Commands]\n"
-            "ans     - Returns the answer to the current puzzle\n"
-            "used    - Returns a list of the past 20 used words (most recent last)"
+            "\\ans     - Returns the answer to the current puzzle\n"
+            "\\used    - Returns a list of the past 20 used words (most recent last)"
         )
 
     print(msg)
@@ -161,30 +162,34 @@ while running:
 
         ### Commands ###
         # Checking help menu PLACEHOLDER
-        if inp.lower() == "help":
+        if inp.lower() == "\\help":
             printHelp(debug)
         # Quitting game
-        elif inp.lower() == "quit":
+        elif inp.lower() == "\\q":
             playing = False
             running = False
             break
         # Restarting game
-        elif inp.lower() == "restart":
+        elif inp.lower() == "\\r":
             playing = False
             break
-        ### Debug
-        elif inp.lower() == "cheats":
+        ### Debug ###
+        elif inp.lower() == "\\cheats":
             debug = not debug
             printDebug(f"Debug is now {['OFF', 'ON'][debug]}")
-        elif debug and (inp.lower() == "ans"):
+        elif debug and (inp.lower() == "\\ans"):
             printDebug(f"Answer is: {answer.upper()}", 0)
-        elif debug and (inp.lower() == "used"):
+        elif debug and (inp.lower() == "\\used"):
             printDebug(f"Words used are: {used}")
         ### Wrong input checks ###
         elif len(inp) != 5:
             printError("Input not of length 5")
         elif not inp.isalpha():
             printError("Input must be letters only")
+        elif inp.lower() not in allWords:
+            printError("Not in word list")
+        elif inp in wordList:
+            printError("Already used that word")
         ### Correct user input ###
         else:
             wordList[turn] = inp
