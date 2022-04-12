@@ -7,6 +7,7 @@ import os
 # Globals ◼
 ltrs = dict.fromkeys(ascii_uppercase, 0)
 allWords = open('src/words.txt').read().splitlines()
+allowedWords = open('src/allowed.txt').read().splitlines()
 
 
 # Clearing screen
@@ -193,8 +194,8 @@ while running:
             printError("Input not of length 5")
         elif not inp.isalpha():
             printError("Input must be letters only")
-        elif inp.lower() not in allWords:
-            printError("Not in word list")
+        elif inp.lower() not in allowedWords:
+            printError("Not a valid word")
         elif inp in wordList:
             printError("Already used that word")
         ### Correct user input ###
