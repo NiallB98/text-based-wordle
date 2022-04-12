@@ -1,11 +1,19 @@
 from random import randint
 from time import sleep
 from string import ascii_uppercase, ascii_lowercase
+import os
+
+import os
 
 
 # Globals ◼
 ltrs = dict.fromkeys(ascii_uppercase, 0)
 allWords = open('src/words.txt').read().splitlines()
+
+
+# Clearing screen
+def cls():
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 
 # Choosing random word from file
@@ -156,6 +164,7 @@ while running:
     ltrs = dict.fromkeys(ascii_uppercase, 0)
 
     while playing:
+        cls()
         print(drawBoard(answer, wordList))
         printLtrs()
         inp = input("> ")
