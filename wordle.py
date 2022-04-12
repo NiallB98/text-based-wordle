@@ -194,7 +194,7 @@ while running:
             printError("Input not of length 5")
         elif not inp.isalpha():
             printError("Input must be letters only")
-        elif inp.lower() not in allowedWords:
+        elif inp.lower() not in allowedWords + allWords:
             printError("Not a valid word")
         elif inp in wordList:
             printError("Already used that word")
