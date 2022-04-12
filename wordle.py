@@ -3,8 +3,6 @@ from time import sleep
 from string import ascii_uppercase, ascii_lowercase
 import os
 
-import os
-
 
 # Globals ◼
 ltrs = dict.fromkeys(ascii_uppercase, 0)
