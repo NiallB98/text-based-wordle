@@ -1,5 +1,4 @@
 from random import randint
-from time import sleep
 from string import ascii_uppercase, ascii_lowercase
 import os
 
@@ -13,6 +12,11 @@ allowedWords = open('src/allowed.txt').read().splitlines()
 # Clearing screen
 def cls():
     os.system('cls' if os.name == 'nt' else 'clear')
+
+
+# Pausing
+def pause(msg="\nPress Enter to continue . . . "):
+    input(msg)
 
 
 # Choosing random word from file
@@ -95,7 +99,7 @@ def drawBoard(ans, words=[""]*6):
 
 def printError(msg):
     print("!!! ERROR:" + msg.upper() + " !!!")
-    sleep(1.5)
+    pause()
 
 
 def gameEnd(ans, word, t):
@@ -103,12 +107,12 @@ def gameEnd(ans, word, t):
         msg = "*** YOU WON ***\n"
     else:
         msg = "--- YOU LOST ---\n"
+        msg += f"Correct answer was {answer.upper()}\n"
 
     msg += f"Turns taken: {t}/6"
 
     print(msg)
-    if debug: printDebug(f"Correct answer was {answer.upper()}")
-    input("\nPress Enter to play again . . . ")
+    pause("\nPress Enter to play again . . . ")
 
 
 def printLtrs():
@@ -120,12 +124,9 @@ def printLtrs():
     print(msg)
 
 
-def printDebug(msg, pause=-1):
+def printDebug(msg):
     print("### DEBUG: " + msg + " ###")
-    if pause == 0:
-        input("\nPress Enter to continue . . . ")
-    elif pause > 0:
-        sleep(pause)
+    pause()
 
 
 def printHelp(cheats):
@@ -146,7 +147,7 @@ def printHelp(cheats):
         )
 
     print(msg)
-    input("\nPress Enter to continue . . . ")
+    pause()
 
 
 ### Game ###
@@ -186,7 +187,7 @@ while running:
             debug = not debug
             printDebug(f"Debug is now {['OFF', 'ON'][debug]}")
         elif debug and (inp.lower() == "\\ans"):
-            printDebug(f"Answer is: {answer.upper()}", 0)
+            printDebug(f"Answer is: {answer.upper()}")
         elif debug and (inp.lower() == "\\used"):
             printDebug(f"Words used are: {used}")
         ### Wrong input checks ###
