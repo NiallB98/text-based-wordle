@@ -1,12 +1,19 @@
 from random import randint
 from string import ascii_uppercase, ascii_lowercase
 import os
+import sys
+
+
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
 
 
 # Globals ◼
 ltrs = dict.fromkeys(ascii_uppercase, 0)
-allWords = open('words.txt').read().splitlines()
-allowedWords = open('allowed.txt').read().splitlines()
+allWords = open(resource_path('src/words.txt')).read().splitlines()
+allowedWords = open(resource_path('src/allowed.txt')).read().splitlines()
 
 
 # Clearing screen
