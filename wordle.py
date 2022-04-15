@@ -5,8 +5,8 @@ import os
 
 # Globals ◼
 ltrs = dict.fromkeys(ascii_uppercase, 0)
-allWords = open('src/words.txt').read().splitlines()
-allowedWords = open('src/allowed.txt').read().splitlines()
+allWords = open('words.txt').read().splitlines()
+allowedWords = open('allowed.txt').read().splitlines()
 
 
 # Clearing screen
