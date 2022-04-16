@@ -213,6 +213,7 @@ while running:
 
             # Checking if game is over
             if (turn > 5) or (inp == answer):
+                cls()
                 print(drawBoard(answer, wordList))
                 gameEnd(answer, inp, turn)
 
