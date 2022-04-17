@@ -10,6 +10,31 @@ def resource_path(relative_path):
     return os.path.join(base_path, relative_path)
 
 
+# Centering message
+def center(msg, count=False):
+    try:
+        w = os.get_terminal_size()[0]
+        if w > (len(msg) + 1):
+            spaceCount = int((w - len(msg)) / 2)
+            msg = " " * spaceCount + msg
+            if count: return spaceCount
+            else: return msg
+        else:
+            if count: return 0
+            else: return msg
+    except OSError:
+        if count: return 0
+        else: return msg
+
+
+def centerToTab():
+    return " " * center("+-------+-------+-------+-------+-------+", True)
+
+
+def centerToLtrs():
+    return " " * center(" ".join(ascii_uppercase), True)
+
+
 # Globals ◼
 ltrs = dict.fromkeys(ascii_uppercase, 0)
 allWords = open(resource_path('src/words.txt')).read().splitlines()
@@ -22,8 +47,8 @@ def cls():
 
 
 # Pausing
-def pause(msg="\nPress Enter to continue . . . "):
-    input(msg)
+def pause(msg="Press Enter to continue . . . "):
+    input("\n" + center(msg))
 
 
 # Choosing random word from file
@@ -82,21 +107,23 @@ def checkRight(word, ans, ind):
 
 def drawRow(word, ans):
     if word == "":
-        return ("\n|       |       |       |       |       |"
-                "\n+-------+-------+-------+-------+-------+")
+        return ("\n" + centerToTab() + "|       |       |       |       |       |" +
+                "\n" + centerToTab() + "+-------+-------+-------+-------+-------+")
     else:
         word = word.upper()
-        return (f"\n| {checkRight(word, ans, 0)[0]} {word[0]} {checkRight(word, ans, 0)[1]} "
-                f"| {checkRight(word, ans, 1)[0]} {word[1]} {checkRight(word, ans, 1)[1]} "
-                f"| {checkRight(word, ans, 2)[0]} {word[2]} {checkRight(word, ans, 2)[1]} "
-                f"| {checkRight(word, ans, 3)[0]} {word[3]} {checkRight(word, ans, 3)[1]} "
-                f"| {checkRight(word, ans, 4)[0]} {word[4]} {checkRight(word, ans, 4)[1]} |"
-                "\n+-------+-------+-------+-------+-------+")
+        return ("\n" + centerToTab() +
+                f"| {checkRight(word, ans, 0)[0]} {word[0]} {checkRight(word, ans, 0)[1]} " +
+                f"| {checkRight(word, ans, 1)[0]} {word[1]} {checkRight(word, ans, 1)[1]} " +
+                f"| {checkRight(word, ans, 2)[0]} {word[2]} {checkRight(word, ans, 2)[1]} " +
+                f"| {checkRight(word, ans, 3)[0]} {word[3]} {checkRight(word, ans, 3)[1]} " +
+                f"| {checkRight(word, ans, 4)[0]} {word[4]} {checkRight(word, ans, 4)[1]} |" +
+                "\n" + centerToTab() +
+                "+-------+-------+-------+-------+-------+")
 
 
 # noinspection PyDefaultArgument
 def drawBoard(ans, words=[""]*6):
-    board = "+-------+-------+-------+-------+-------+"
+    board = center("+-------+-------+-------+-------+-------+")
 
     for i, word in enumerate(words):
         board += drawRow(word, ans)
@@ -105,52 +132,52 @@ def drawBoard(ans, words=[""]*6):
 
 
 def printError(msg):
-    print("!!! ERROR:" + msg.upper() + " !!!")
+    print(center("!!! ERROR:" + msg.upper() + " !!!"))
     pause()
 
 
 def gameEnd(ans, word, t):
     if word == ans:
-        msg = "*** YOU WON ***\n"
+        msg = center("*** YOU WON ***") + "\n"
     else:
-        msg = "--- YOU LOST ---\n"
-        msg += f"Correct answer was {answer.upper()}\n"
+        msg = center("--- YOU LOST ---") + "\n"
+        msg += center(f"Correct answer was {answer.upper()}") + "\n"
 
-    msg += f"Turns taken: {t}/6"
+    msg += center(f"Turns taken: {t}/6") + "\n"
 
     print(msg)
-    pause("\nPress Enter to play again . . . ")
+    pause("Press Enter to play again . . . ")
 
 
 def printLtrs():
-    msg = ""
+    msg = centerToLtrs()
     for ltr in ascii_uppercase:
         msg += ["  ", "X ", "~ ", "* "][ltrs[ltr]]
 
-    msg += "\n" + " ".join(ascii_uppercase)
+    msg += "\n" + center(" ".join(ascii_uppercase))
     print(msg)
 
 
 def printDebug(msg):
-    print("### DEBUG: " + msg + " ###")
+    print(center("### DEBUG: " + msg + " ###"))
     pause()
 
 
 def printHelp(cheats):
     msg = (
-        "### HELP MENU ###\n"
-        "[Commands]\n"
-        "\\q       - Quits the whole game\n"
-        "\\r       - Restarts the game (and chooses a new word)\n"
-        "\\cheats  - Activates debug mode"
+        center("### HELP MENU ###") + "\n" +
+        centerToLtrs() + "[Commands]\n" +
+        centerToLtrs() + "\\q       - Quits the whole game\n" +
+        centerToLtrs() + "\\r       - Restarts the game\n" +
+        centerToLtrs() + "\\cheats  - Activates debug mode"
     )
     
     if cheats:
         msg += (
-            "\n\n"
-            "[Debug Commands]\n"
-            "\\ans     - Returns the answer to the current puzzle\n"
-            "\\used    - Returns a list of the past 20 used words (most recent last)"
+            "\n\n" +
+            centerToLtrs() + "[Debug Commands]\n" +
+            centerToLtrs() + "\\ans     - Returns the answer to the current puzzle\n" +
+            centerToLtrs() + "\\used    - Returns a list of the past 20 used words"
         )
 
     print(msg)
@@ -174,7 +201,7 @@ while running:
         cls()
         print(drawBoard(answer, wordList))
         printLtrs()
-        inp = input("> ")
+        inp = input(" " * center("+-------+-------+-------+-------+-------+", True) + "> ")
 
         ### Commands ###
         # Checking help menu PLACEHOLDER
