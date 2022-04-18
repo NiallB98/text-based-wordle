@@ -142,11 +142,10 @@ def printError(msg):
 def gameEnd(ans, word, t):
     if word == ans:
         msg = center("*** YOU WON ***") + "\n"
+        msg += center(f"Turns taken: {t}/6") + "\n"
     else:
         msg = center("--- YOU LOST ---") + "\n"
         msg += center(f"Correct answer was {answer.upper()}") + "\n"
-
-    msg += center(f"Turns taken: {t}/6") + "\n"
 
     print(msg)
     pause("Press Enter to play again . . . ")
