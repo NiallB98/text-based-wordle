@@ -135,7 +135,7 @@ def drawBoard(ans, words=[""]*6):
 
 
 def printError(msg):
-    print(center("!!! ERROR:" + msg.upper() + " !!!"))
+    print(center("!!! ERROR: " + msg.upper() + " !!!"))
     pause()
 
 
