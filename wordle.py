@@ -59,7 +59,7 @@ def pickWord(usedList=[""]*20):
     chosen = ""
 
     # Selecting random word
-    while chosen in usedList:
+    while (chosen in usedList) or (chosen == ""):
         chosen = allWords[randint(0, len(allWords))]
 
     # Adding word to used
