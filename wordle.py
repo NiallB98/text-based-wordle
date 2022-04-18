@@ -35,10 +35,11 @@ def centerToLtrs():
     return " " * center(" ".join(ascii_uppercase), True)
 
 
-# Globals ◼
+# Globals
 ltrs = dict.fromkeys(ascii_uppercase, 0)
 allWords = open(resource_path('src/words.txt')).read().splitlines()
 allowedWords = open(resource_path('src/allowed.txt')).read().splitlines()
+revealedWord = list("_"*5)
 
 
 # Clearing screen
@@ -76,6 +77,7 @@ def checkRight(word, ans, ind):
     # Check letter is right
     if word[ind] == ans[ind]:
         ltrs[word[ind].upper()] = 3
+        revealedWord[ind] = word[ind].upper()
         return "**"
 
     # Dictionary tracking cumulative wrong position letter counts
@@ -128,6 +130,7 @@ def drawBoard(ans, words=[""]*6):
     for i, word in enumerate(words):
         board += drawRow(word, ans)
 
+    board = center("".join(revealedWord)) + "\n" + board
     return board
 
 
@@ -196,6 +199,7 @@ while running:
     wordList = [""]*6
     turn = 0
     ltrs = dict.fromkeys(ascii_uppercase, 0)
+    revealedWord = list("_"*5)
 
     while playing:
         cls()
