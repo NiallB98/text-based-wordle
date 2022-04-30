@@ -2,6 +2,7 @@ from random import randint
 from string import ascii_uppercase, ascii_lowercase
 import os
 import sys
+from termcolor import colored
 
 
 def resource_path(relative_path):
@@ -11,9 +12,10 @@ def resource_path(relative_path):
 
 
 # Centering message
-def center(msg, count=False):
+def center(msg, count=False, w=0):
     try:
-        w = os.get_terminal_size()[0]
+        if w == 0: w = os.get_terminal_size()[0]
+
         if w > (len(msg) + 1):
             spaceCount = int((w - len(msg)) / 2)
             msg = " " * spaceCount + msg
@@ -27,8 +29,12 @@ def center(msg, count=False):
         else: return msg
 
 
-def centerToTab():
-    return " " * center("+-------+-------+-------+-------+-------+", True)
+def centerToTab(msg=""):
+    if msg == "":
+        return " " * center("+-------+-------+-------+-------+-------+", True)
+    else:
+        width = len("+-------+-------+-------+-------+-------+")
+        return centerToTab() + center(msg, w=width)
 
 
 def centerToLtrs():
@@ -41,6 +47,24 @@ allWords = open(resource_path('src/words.txt')).read().splitlines()
 allowedWords = open(resource_path('src/allowed.txt')).read().splitlines()
 revealedWord = list("_"*5)
 
+# Colours
+if "--colours" in sys.argv: colours = True
+else: colours = False
+colourDef = 'white'
+colourWin = 'green'
+colourLose = 'red'
+colourCorrect = 'green'
+colourClose = 'yellow'
+colourWrong = 'grey'
+colourDebug = 'yellow'
+colourError = 'red'
+
+
+def style(msg, fore=colourDef, back=""):
+    if back == "" and colours: return colored(msg, fore)
+    elif colours: return colored(msg, fore, back)
+    else: return msg
+
 
 # Clearing screen
 def cls():
@@ -49,7 +73,7 @@ def cls():
 
 # Pausing
 def pause(msg="Press Enter to continue . . . "):
-    input("\n" + center(msg))
+    input(style("\n" + centerToTab(msg)))
 
 
 # Choosing random word from file
@@ -78,7 +102,10 @@ def checkRight(word, ans, ind):
     if word[ind] == ans[ind]:
         ltrs[word[ind].upper()] = 3
         revealedWord[ind] = word[ind].upper()
-        return "**"
+        if colours:
+            return style(f"   {word[ind].upper()}   ", "grey", "on_" + colourCorrect)
+        else:
+            return f" * {word[ind].upper()} * "
 
     # Dictionary tracking cumulative wrong position letter counts
     ltrNums = dict.fromkeys(ascii_lowercase, 0)
@@ -96,7 +123,10 @@ def checkRight(word, ans, ind):
 
             if freeLtrs >= ltrNums[word[ind]]:
                 if ltrs[word[ind].upper()] != 3: ltrs[word[ind].upper()] = 2
-                return "()"
+                if colours:
+                    return style(f"   {word[ind].upper()}   ", "grey", "on_" + colourClose)
+                else:
+                    return f" ( {word[ind].upper()} ) "
             else:
                 break
         elif word[i] != ans[i]:
@@ -104,83 +134,94 @@ def checkRight(word, ans, ind):
 
     # If neither case is true (Letter is wrong)
     if ltrs[word[ind].upper()] < 2: ltrs[word[ind].upper()] = 1
-    return "--"
+    if colours:
+        return style(f"   {word[ind].upper()}   ", back="on_" + colourWrong)
+    else:
+        return f" - {word[ind].upper()} - "
 
 
 def drawRow(word, ans):
     if word == "":
-        return ("\n" + centerToTab() + "|       |       |       |       |       |" +
-                "\n" + centerToTab() + "+-------+-------+-------+-------+-------+")
+        return style(("\n" + centerToTab() + "|       |       |       |       |       |" +
+                      "\n" + centerToTab() + "+-------+-------+-------+-------+-------+"))
     else:
         word = word.upper()
+        colouredBar = style("|")
         return ("\n" + centerToTab() +
-                f"| {checkRight(word, ans, 0)[0]} {word[0]} {checkRight(word, ans, 0)[1]} " +
-                f"| {checkRight(word, ans, 1)[0]} {word[1]} {checkRight(word, ans, 1)[1]} " +
-                f"| {checkRight(word, ans, 2)[0]} {word[2]} {checkRight(word, ans, 2)[1]} " +
-                f"| {checkRight(word, ans, 3)[0]} {word[3]} {checkRight(word, ans, 3)[1]} " +
-                f"| {checkRight(word, ans, 4)[0]} {word[4]} {checkRight(word, ans, 4)[1]} |" +
+                colouredBar + f"{checkRight(word, ans, 0)}" +
+                colouredBar + f"{checkRight(word, ans, 1)}" +
+                colouredBar + f"{checkRight(word, ans, 2)}" +
+                colouredBar + f"{checkRight(word, ans, 3)}" +
+                colouredBar + f"{checkRight(word, ans, 4)}" + colouredBar +
                 "\n" + centerToTab() +
-                "+-------+-------+-------+-------+-------+")
+                style("+-------+-------+-------+-------+-------+"))
 
 
 # noinspection PyDefaultArgument
 def drawBoard(ans, words=[""]*6):
-    board = center("+-------+-------+-------+-------+-------+")
+    board = centerToTab() + style("+-------+-------+-------+-------+-------+")
 
     for i, word in enumerate(words):
         board += drawRow(word, ans)
 
-    board = center("".join(revealedWord)) + "\n" + board
+    board = style(centerToTab("".join(revealedWord))) + "\n" + board
     return board
 
 
 def printError(msg):
-    print(center("!!! ERROR: " + msg.upper() + " !!!"))
+    print(style(center("!!! ERROR: " + msg.upper() + " !!!"), colourError))
     pause()
 
 
 def gameEnd(ans, word, t):
     if word == ans:
-        msg = center("*** YOU WON ***") + "\n"
-        msg += center(f"Turns taken: {t}/6") + "\n"
+        msg = style(centerToTab("*** YOU WON ***") + "\n", colourWin)
+        msg += style(centerToTab(f"Turns taken: {t}/6") + "\n")
     else:
-        msg = center("--- YOU LOST ---") + "\n"
-        msg += center(f"Correct answer was {answer.upper()}") + "\n"
+        msg = style(centerToTab("--- YOU LOST ---") + "\n", colourLose)
+        msg += style(centerToTab(f"Correct answer was {answer.upper()}") + "\n")
 
     print(msg)
     pause("Press Enter to play again . . . ")
 
 
 def printLtrs():
-    msg = centerToLtrs()
-    for ltr in ascii_uppercase:
-        msg += ["  ", "X ", "~ ", "* "][ltrs[ltr]]
+    msg = ""
+    if colours:
+        msg += "\n\n" + centerToTab() + " "*7
+        for ltr in ascii_uppercase:
+            colourList = [colourDef, colourWrong, colourClose, colourCorrect]
+            msg += style(ltr, colourList[ltrs[ltr]])
+    else:
+        for ltr in ascii_uppercase:
+            msg += [" ", "X", "~", "*"][ltrs[ltr]]
+        msg = centerToTab(msg)
 
-    msg += "\n" + center(" ".join(ascii_uppercase))
+        msg += "\n" + centerToTab("".join(ascii_uppercase))
     print(msg)
 
 
 def printDebug(msg):
-    print(center("### DEBUG: " + msg + " ###"))
+    print(style(center("### DEBUG: " + msg + " ###"), colourDebug))
     pause()
 
 
 def printHelp(cheats):
-    msg = (
+    msg = style((
         center("### HELP MENU ###") + "\n" +
         centerToLtrs() + "[Commands]\n" +
         centerToLtrs() + "\\q       - Quits the whole game\n" +
         centerToLtrs() + "\\r       - Restarts the game\n" +
         centerToLtrs() + "\\cheats  - Activates debug mode"
-    )
+    ))
     
     if cheats:
-        msg += (
+        msg += style((
             "\n\n" +
             centerToLtrs() + "[Debug Commands]\n" +
             centerToLtrs() + "\\ans     - Returns the answer to the current puzzle\n" +
             centerToLtrs() + "\\used    - Returns a list of the past 20 used words"
-        )
+        ), colourDebug)
 
     print(msg)
     pause()
@@ -204,7 +245,7 @@ while running:
         cls()
         print(drawBoard(answer, wordList))
         printLtrs()
-        inp = input(" " * center("+-------+-------+-------+-------+-------+", True) + "> ")
+        inp = input(" " * center("+-------+-------+-------+-------+-------+", True) + style("> "))
 
         ### Commands ###
         # Checking help menu PLACEHOLDER
