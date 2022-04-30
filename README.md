@@ -24,3 +24,15 @@ In-game it is possible to view a list of the game's commands by entering the `\h
 
 ## Command line arguments
 `--colours` - Activates coloured mode
+
+## Adding command line arguments for exe
+If you wish to apply a command line argument to your exe easily:
+- Create a shortcut to the exe
+- Edit the properties of the shortcut
+- Append the argument to the end of the `Target:` box
+\
+\
+Your target box should look something like this:
+`"C:\Path\To\Text Based Wordle.exe" --colours`
+\
+(If using the `--colours` argument for example)
