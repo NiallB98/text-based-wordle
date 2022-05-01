@@ -56,7 +56,7 @@ if "--colours" in sys.argv:
     colours = True
     if not allowColours:
         print(center("!!! WARNING: TERMCOLOR MODULE NOT INSTALLED, TURNING OFF COLOURED MODE !!!"))
-        input(center("\nPress Enter to continue to game . . . "))
+        input("\n" + center("Press Enter to continue to game . . . "))
 else: colours = False
 colourDef = 'white'
 colourWin = 'green'
