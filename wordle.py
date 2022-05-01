@@ -290,6 +290,10 @@ while running:
         elif inp.lower() == "\\colours":
             changeColourMode()
         ### Wrong input checks ###
+        elif inp == "":
+            pass
+        elif inp[0] == "\\":
+            printError("Not a valid command")
         elif len(inp) != 5:
             printError("Input not of length 5")
         elif not inp.isalpha():
