@@ -196,7 +196,7 @@ def gameEnd(ans, word, t):
 def printLtrs():
     msg = ""
     if colours and allowColours:
-        msg += "\n\n" + centerToTab() + " "*7
+        msg += "\n" + centerToTab() + " "*7
         for ltr in ascii_uppercase:
             colourList = [colourDef, colourWrong, colourClose, colourCorrect]
             msg += style(ltr, colourList[ltrs[ltr]])
