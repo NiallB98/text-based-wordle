@@ -23,8 +23,11 @@ Or in green |<span style="background:green; color:black"> C </span>| with cmd li
 In-game it is possible to view a list of the game's commands by entering the `\help` command
 
 ## Command line arguments
-`--colours` - Activates coloured mode
-\
+- `--debug`
+  - Activates debug mode
+- `--colours`
+  - Activates coloured mode
+
 \
 **Note:** Coloured mode requires the `termcolor` module to be installed (`pip install termcolor`) if running via the source code
 
