@@ -240,7 +240,7 @@ def changeColourMode():
     global colours, allowColours
     if allowColours:
         colours = not colours
-        printDebug(f"Coloured mode now set to {colours}")
+        printDebug(f"Coloured mode is now {['off', 'on'][colours]}")
     else:
         printError("Cannot turn on coloured mode, termcolor module not installed")
 
