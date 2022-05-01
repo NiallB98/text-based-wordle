@@ -68,7 +68,7 @@ def style(msg, fore=colourDef, back=""):
 
 # Clearing screen
 def cls():
-    os.system('cls' if os.name == 'nt' else 'clear')
+    os.system('cls||echo -ne "\033c"')
 
 
 # Pausing
