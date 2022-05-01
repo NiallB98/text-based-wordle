@@ -237,7 +237,8 @@ def printHelp(cheats):
 
 ### Game ###
 running = True
-debug = False
+if "--debug" in sys.argv: debug = True
+else: debug = False
 
 # Picking first word
 answer, used = pickWord()
