@@ -52,7 +52,11 @@ allowedWords = open(resource_path('src/allowed.txt')).read().splitlines()
 revealedWord = list("_"*5)
 
 # Colours
-if "--colours" in sys.argv: colours = True
+if "--colours" in sys.argv:
+    colours = True
+    if not allowColours:
+        print(center("!!! WARNING: TERMCOLOR MODULE NOT INSTALLED, TURNING OFF COLOURED MODE !!!"))
+        input(center("\nPress Enter to continue to game . . . "))
 else: colours = False
 colourDef = 'white'
 colourWin = 'green'
