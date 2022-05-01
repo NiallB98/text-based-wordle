@@ -7,20 +7,29 @@ The objective of the game is to guess a randomly selected 5-letter word within 6
 \
 | - A - |
 \
-Or in grey |<span style="background:#303030; color:white"> A </span>| with cmd line arg `--colours` (Shade of grey may differ)
+Or coloured with a black/grey background in coloured mode (See [Commands](#commands) or [Command line arguments](#command-line-arguments))
 - `Correct` letters in the `wrong position` are denoted with `()`:
 \
 | ( B ) |
 \
-Or in yellow |<span style="background:yellow; color:black"> B </span>| with cmd line arg `--colours`
+Or coloured with a yellow background in coloured mode
 - `Correct` letters in the `correct position` are denoted with `*` on either side:
 \
 | * C * |
 \
-Or in green |<span style="background:green; color:black"> C </span>| with cmd line arg `--colours`
+Or coloured with a green background in coloured mode
 
 ## Commands
-In-game it is possible to view a list of the game's commands by entering the `\help` command
+- `\help`
+  - View the list of in-game commands
+- `\q`
+  - Quits the game
+- `\r`
+  - Restarts the game
+- `\colours`
+  - Toggles coloured mode
+- `\debug`
+  - Toggles debug mode
 
 ## Command line arguments
 - `--debug`
