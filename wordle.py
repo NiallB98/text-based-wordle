@@ -220,7 +220,7 @@ def printHelp(cheats):
         centerToLtrs() + "[Commands]\n" +
         centerToLtrs() + "\\q       - Quits the whole game\n" +
         centerToLtrs() + "\\r       - Restarts the game\n" +
-        centerToLtrs() + "\\cheats  - Activates debug mode"
+        centerToLtrs() + "\\debug   - Activates debug mode"
     ))
     
     if cheats:
