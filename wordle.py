@@ -270,7 +270,7 @@ while running:
             playing = False
             break
         ### Debug ###
-        elif inp.lower() == "\\cheats":
+        elif inp.lower() == "\\debug":
             debug = not debug
             printDebug(f"Debug is now {['OFF', 'ON'][debug]}")
         elif debug and (inp.lower() == "\\ans"):
