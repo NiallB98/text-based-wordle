@@ -24,6 +24,9 @@ In-game it is possible to view a list of the game's commands by entering the `\h
 
 ## Command line arguments
 `--colours` - Activates coloured mode
+\
+\
+**Note:** Coloured mode requires the `termcolor` module to be installed (`pip install termcolor`) if running via the source code
 
 ## Adding command line arguments for exe
 If you wish to apply a command line argument to your exe easily:
