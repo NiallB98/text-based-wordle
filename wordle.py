@@ -76,7 +76,7 @@ def style(msg, fore=colourDef, back=""):
 
 # Clearing screen
 def cls():
-    sp.run(['cls' if os.name == 'nt' else 'echo -ne "\033c"'], shell=True)
+    sp.run(['cls' if os.name == 'nt' else 'clear'], shell=True)
 
 
 # Pausing
