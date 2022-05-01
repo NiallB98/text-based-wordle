@@ -279,6 +279,9 @@ while running:
         elif inp.lower() == "\\r":
             playing = False
             break
+        # Toggling coloured mode
+        elif inp.lower() == "\\colours":
+            changeColourMode()
         ### Debug ###
         elif inp.lower() == "\\debug":
             debug = not debug
@@ -287,8 +290,6 @@ while running:
             printDebug(f"Answer is: {answer.upper()}")
         elif debug and (inp.lower() == "\\used"):
             printDebug(f"Words used are: {used}")
-        elif inp.lower() == "\\colours":
-            changeColourMode()
         ### Wrong input checks ###
         elif inp == "":
             pass
