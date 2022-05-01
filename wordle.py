@@ -2,8 +2,11 @@ from random import randint
 from string import ascii_uppercase, ascii_lowercase
 import os
 import sys
-from termcolor import colored
 import subprocess as sp
+try:
+    from termcolor import colored
+    allowColours = True
+except ImportError or ModuleNotFoundError: allowColours = False
 
 
 def resource_path(relative_path):
@@ -62,8 +65,8 @@ colourError = 'red'
 
 
 def style(msg, fore=colourDef, back=""):
-    if back == "" and colours: return colored(msg, fore)
-    elif colours: return colored(msg, fore, back)
+    if back == "" and colours and allowColours: return colored(msg, fore)
+    elif colours and allowColours: return colored(msg, fore, back)
     else: return msg
 
 
@@ -103,7 +106,7 @@ def checkRight(word, ans, ind):
     if word[ind] == ans[ind]:
         ltrs[word[ind].upper()] = 3
         revealedWord[ind] = word[ind].upper()
-        if colours:
+        if colours and allowColours:
             return style(f"   {word[ind].upper()}   ", "grey", "on_" + colourCorrect)
         else:
             return f" * {word[ind].upper()} * "
@@ -124,7 +127,7 @@ def checkRight(word, ans, ind):
 
             if freeLtrs >= ltrNums[word[ind]]:
                 if ltrs[word[ind].upper()] != 3: ltrs[word[ind].upper()] = 2
-                if colours:
+                if colours and allowColours:
                     return style(f"   {word[ind].upper()}   ", "grey", "on_" + colourClose)
                 else:
                     return f" ( {word[ind].upper()} ) "
@@ -135,7 +138,7 @@ def checkRight(word, ans, ind):
 
     # If neither case is true (Letter is wrong)
     if ltrs[word[ind].upper()] < 2: ltrs[word[ind].upper()] = 1
-    if colours:
+    if colours and allowColours:
         return style(f"   {word[ind].upper()}   ", back="on_" + colourWrong)
     else:
         return f" - {word[ind].upper()} - "
@@ -188,7 +191,7 @@ def gameEnd(ans, word, t):
 
 def printLtrs():
     msg = ""
-    if colours:
+    if colours and allowColours:
         msg += "\n\n" + centerToTab() + " "*7
         for ltr in ascii_uppercase:
             colourList = [colourDef, colourWrong, colourClose, colourCorrect]
