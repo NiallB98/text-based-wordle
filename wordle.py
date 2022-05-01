@@ -220,6 +220,7 @@ def printHelp(cheats):
         centerToLtrs() + "[Commands]\n" +
         centerToLtrs() + "\\q       - Quits the whole game\n" +
         centerToLtrs() + "\\r       - Restarts the game\n" +
+        centerToLtrs() + "\\colours - Toggles coloured mode\n" +
         centerToLtrs() + "\\debug   - Activates debug mode"
     ))
     
@@ -233,6 +234,15 @@ def printHelp(cheats):
 
     print(msg)
     pause()
+
+
+def changeColourMode():
+    global colours, allowColours
+    if allowColours:
+        colours = not colours
+        printDebug(f"Coloured mode now set to {colours}")
+    else:
+        printError("Cannot turn on coloured mode, termcolor module not installed")
 
 
 ### Game ###
@@ -277,6 +287,8 @@ while running:
             printDebug(f"Answer is: {answer.upper()}")
         elif debug and (inp.lower() == "\\used"):
             printDebug(f"Words used are: {used}")
+        elif inp.lower() == "\\colours":
+            changeColourMode()
         ### Wrong input checks ###
         elif len(inp) != 5:
             printError("Input not of length 5")
