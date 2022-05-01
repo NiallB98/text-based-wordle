@@ -218,7 +218,7 @@ def printHelp(cheats):
     msg = style((
         center("### HELP MENU ###") + "\n" +
         centerToLtrs() + "[Commands]\n" +
-        centerToLtrs() + "\\q       - Quits the whole game\n" +
+        centerToLtrs() + "\\q       - Quits the game\n" +
         centerToLtrs() + "\\r       - Restarts the game\n" +
         centerToLtrs() + "\\colours - Toggles coloured mode\n" +
         centerToLtrs() + "\\debug   - Activates debug mode"
