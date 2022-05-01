@@ -3,6 +3,7 @@ from string import ascii_uppercase, ascii_lowercase
 import os
 import sys
 from termcolor import colored
+import subprocess as sp
 
 
 def resource_path(relative_path):
@@ -68,7 +69,7 @@ def style(msg, fore=colourDef, back=""):
 
 # Clearing screen
 def cls():
-    os.system('cls||echo -ne "\033c"')
+    sp.run(['cls' if os.name == 'nt' else 'echo -ne "\033c"'], shell=True)
 
 
 # Pausing
