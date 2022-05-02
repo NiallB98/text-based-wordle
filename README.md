@@ -3,9 +3,9 @@ A text-based version of the popular NY Times-owned game Wordle
 
 ## How to Play
 The objective of the game is to guess a randomly selected 5-letter word within 6 guesses where each guess will reveal details about the word in question
-- `Wrong` letters are denoted with `-` on either side:
+- `Wrong` letters appear in their cell by themselves:
 \
-| - A - |
+|&ensp; A &ensp;|
 \
 Or coloured with a black/grey background in coloured mode (See [Commands](#commands) or [Command line arguments](#command-line-arguments))
 - `Correct` letters in the `wrong position` are denoted with `()`:
