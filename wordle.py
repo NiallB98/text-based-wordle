@@ -81,7 +81,7 @@ def cls():
 
 # Pausing
 def pause(msg="Press Enter to continue . . . "):
-    input(style("\n" + centerToTab(msg)))
+    input("\n" + style(centerToTab(msg)))
 
 
 # Choosing random word from file
