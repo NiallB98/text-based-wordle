@@ -145,7 +145,7 @@ def checkRight(word, ans, ind):
     if colours and allowColours:
         return style(f"   {word[ind].upper()}   ", back="on_" + colourWrong)
     else:
-        return f" - {word[ind].upper()} - "
+        return f"   {word[ind].upper()}   "
 
 
 def drawRow(word, ans):
