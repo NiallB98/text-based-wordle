@@ -234,6 +234,7 @@ def printHelp(cheats):
             centerToLtrs() + "\\used    - Returns a list of the past 20 used words"
         ), colourDebug)
 
+    cls()
     print(msg)
     pause()
 
@@ -321,3 +322,7 @@ while running:
 
     # Picking next word
     answer, used = pickWord(used)
+
+# Clearing screen after quitting
+cls()
+
