@@ -182,6 +182,8 @@ def printError(msg):
 
 
 def gameEnd(ans, word, t):
+    word = word.lower()
+
     if word == ans:
         msg = style(centerToTab("*** YOU WON ***") + "\n", colourWin)
         msg += style(centerToTab(f"Turns taken: {t}/6") + "\n")
@@ -309,7 +311,7 @@ while running:
             turn += 1
 
             # Checking if game is over
-            if (turn > 5) or (inp == answer):
+            if (turn > 5) or (inp.lower() == answer):
                 cls()
                 print(drawBoard(answer, wordList))
                 gameEnd(answer, inp, turn)
