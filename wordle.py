@@ -325,4 +325,3 @@ while running:
 
 # Clearing screen after quitting
 cls()
-
