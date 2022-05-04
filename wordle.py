@@ -303,11 +303,11 @@ while running:
             printError("Input must be letters only")
         elif inp.lower() not in allowedWords + allWords:
             printError("Not a valid word")
-        elif inp in wordList:
+        elif inp.lower() in wordList:
             printError("Already used that word")
         ### Correct user input ###
         else:
-            wordList[turn] = inp
+            wordList[turn] = inp.lower()
             turn += 1
 
             # Checking if game is over
